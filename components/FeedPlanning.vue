@@ -41,67 +41,117 @@ const feedingsGroupedByDate = computed(() => {
 </script>
 
 <template>
-  <div class="p-6 space-y-8">
-    <div class="bg-white rounded-lg shadow-lg p-6">
-      <h2 class="text-2xl font-semibold mb-4 text-gray-800">Plan a Feeding</h2>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div>
-          <label class="block text-gray-700 mb-2">Select Animal</label>
-          <select v-model="selectedAnimal" class="w-full border rounded p-2">
-            <option :value="null" disabled>Select...</option>
-            <option v-for="animal in animals" :key="animal.name" :value="animal">
-              {{ animal.name }}
-            </option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-gray-700 mb-2">Select Fruit</label>
-          <select v-model="selectedFruit" class="w-full border rounded p-2">
-            <option disabled value="">Select...</option>
-            <option value="Apples">Apples</option>
-            <option value="Bananas">Bananas</option>
-            <option value="Cherries">Cherries</option>
-            <option value="Grapes">Grapes</option>
-            <option value="Mangoes">Mangoes</option>
-          </select>
-        </div>
-
-        <div>
-          <label class="block text-gray-700 mb-2">Select Date</label>
-          <input type="date" v-model="selectedDate" class="w-full border rounded p-2" />
-        </div>
+  <div class="min-h-screen bg-gray-50 p-6 font-sans space-y-6">
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+      <div class="bg-green-700 px-5 py-4">
+        <h2 class="text-xl font-bold text-white">Plan a Feeding</h2>
       </div>
-
-      <div class="mt-6">
-        <button @click="addFeedingTask" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded">
-          Add Feeding
+      
+      <div class="p-5">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Animal</label>
+            <select 
+              v-model="selectedAnimal" 
+              class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 focus:border-green-500"
+            >
+              <option :value="null" disabled>Select animal...</option>
+              <option 
+                v-for="animal in animals" 
+                :key="animal.name" 
+                :value="animal"
+                class="text-gray-700"
+              >
+                {{ animal.name }}
+              </option>
+            </select>
+          </div>
+        
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Fruit</label>
+            <select 
+              v-model="selectedFruit" 
+              class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 focus:border-green-500"
+            >
+              <option disabled value="">Select fruit...</option>
+              <option value="Apples">Apples</option>
+              <option value="Bananas">Bananas</option>
+              <option value="Cherries">Cherries</option>
+              <option value="Grapes">Grapes</option>
+              <option value="Mangoes">Mangoes</option>
+            </select>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Date</label>
+            <input 
+              type="date" 
+              v-model="selectedDate" 
+              class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 focus:border-green-500"
+            />
+          </div>
+        </div>
+        
+        <button 
+          @click="addFeedingTask" 
+          :disabled="!selectedAnimal || !selectedFruit || !selectedDate"
+          class="w-full md:w-auto bg-green-700 hover:bg-green-800 text-white font-medium py-2 px-6 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        >
+          Add Feeding Task
         </button>
       </div>
     </div>
 
-    <div class="bg-white rounded-lg shadow-lg p-6">
-      <h2 class="text-2xl font-semibold mb-4 text-gray-800">Upcoming Feedings</h2>
-
-      <div v-if="Object.keys(feedingsGroupedByDate).length">
-        <div v-for="(tasks, date) in feedingsGroupedByDate" :key="date" class="mb-8">
-          <h3 class="text-lg font-bold text-gray-700 mb-2">{{ date }}</h3>
-          <ul class="space-y-2">
-            <li v-for="({ animal, fruit }, index) in tasks" :key="index" class="flex items-center justify-between bg-gray-100 p-4 rounded">
-              <div>
-                <p class="text-gray-800 font-medium">{{ animal.name }}</p>
-                <p class="text-gray-600 text-sm">{{ fruit }}</p>
-              </div>
-              <div class="text-right">
-                <p class="text-gray-800 font-semibold">{{ useCalculateMonthlyFood(animal).toFixed(2) }} kg</p>
-              </div>
-            </li>
-          </ul>
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+      <div class="bg-green-700 px-5 py-4">
+        <h2 class="text-xl font-bold text-white">Upcoming Feedings</h2>
+      </div>
+      
+      <div class="p-5">
+        <div v-if="Object.keys(feedingsGroupedByDate).length" class="space-y-6">
+          <div v-for="(tasks, date) in feedingsGroupedByDate" :key="date">
+            <h3 class="text-lg font-semibold text-gray-800 mb-3 border-b border-gray-100 pb-2">
+              <svg class="w-5 h-5 inline-block mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+              </svg>
+              {{ date }}
+            </h3>
+            
+            <ul class="space-y-3">
+              <li 
+                v-for="({ animal, fruit }, index) in tasks" 
+                :key="index" 
+                class="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-100"
+              >
+                <div class="flex items-center space-x-3">
+                  <div class="bg-green-100 p-2 rounded-full">
+                    <svg class="w-5 h-5 text-green-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <p class="font-medium text-gray-800">{{ animal.name }}</p>
+                    <p class="text-sm text-gray-600">{{ fruit }}</p>
+                  </div>
+                </div>
+                <div class="text-right">
+                  <p class="text-sm text-gray-500">Quantity</p>
+                  <p class="font-semibold text-green-700">
+                    {{ useCalculateMonthlyFood(animal).toFixed(2) }} kg
+                  </p>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+        <div v-else class="text-center py-8 text-gray-500">
+          <svg class="w-12 h-12 mx-auto text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          <p class="mt-2">No feedings scheduled yet</p>
         </div>
       </div>
-
-      <div v-else class="text-gray-500">No feedings planned yet.</div>
     </div>
-
   </div>
 </template>

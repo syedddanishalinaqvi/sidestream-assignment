@@ -35,7 +35,11 @@ In a first step you should inspect the health of the project and report on every
 Please take stock fo the page using developer tools, your instincts, ... and write down below what you find.
 
 // Your solution
-
+1. Checked the console for any errors and warnings that might indicate broken functionality or missing dependencies.
+2. Assessed the folder structure to see if it adheres to common practices. I also looked at any missing or unused files that could be cleaned up.
+3. I checked pnpm or package.json for outdated or missing dependencies and the correct versions.
+4. Some missing environment configurations were identified, like the lack of a .env file for API endpoints.
+5. Fixed various minor errors in the console related to undefined properties or missing imports.
 ### Task 2: Get the basics running again
 
 Now that we know that is broken, let's try to get things running again, step by step. First we should aim to just get the project to start. Please fix the problem that stops `pnpm run dev` from working out. Then:
@@ -45,7 +49,9 @@ Now that we know that is broken, let's try to get things running again, step by 
 Zookeepers reported that the error sometimes changes when reloading the page after the initial start.
 
 // Your solution
-
+1. Destructuring of animals from useAnimals() were wrong and also some syntax errors were there.
+2. Alert method was written which was giving error because in NUXT (script setup) runs on the server firt and alert() is a browser only function.
+ 
 ### Task 3: Start the documentation
 
 You got it to work! Nice, now the basic functionality is back for the zookeepers. This would be a great point to start on documenting the project. As you can see there is not even a readme file! The old IT Director seems to have left this project in bad shape. Please add documentation with basics on the project, how to start, stop, test, ... it and whatever else information you deem important.
@@ -53,12 +59,19 @@ You got it to work! Nice, now the basic functionality is back for the zookeepers
 Add your solution below, either as an inline text or link to new documentation file(s) you've created.
 
 // Your solution
+ [Open Readme File](./README.md)
 
 ### Task 4: Test fixing
 
 There's a failing test that for the age calculation helper. Can you figure out what is broken in the implementation or the test it is and resolve the problem? All zookeepers are really interested in what is going on here.
 
 // Your solution
+Problem: The failing test was related to the age calculation logic. The test was not aligned with the expected behavior of the age calculation helper.
+
+Implementation:
+- I verified that the helper function was correctly implemented to calculate age from birthdate.
+- Fixed the test by ensuring that the test data included valid birthdates and the logic to compare current age correctly returned the expected results.
+- Added edge cases (e.g., animals born on leap years) to ensure the helper works consistently.
 
 ### Task 5: UI Fixing and Improvement
 
@@ -71,6 +84,9 @@ The zookeepers report that the table is incomplete and different than usually. M
 Please fix the two above problems and outline what was necessarry to do so.
 
 // Your solution
+1. Modified the table component to adjust the column order.
+2. Applied the sorting functionality to the correct field in the data model.
+3. Replaced the birthdate display with the calculated age by leveraging the composable function.
 
 ### Task 6: UI Feature 1
 
@@ -78,6 +94,15 @@ The zookeepers want to be able to see all details of an animal. Please create su
 
 // Your solution
 
+1. Card-Based Layout: The clean, rounded cards with subtle shadows create visual separation while maintaining a modern, organized look—perfect for scanning animal data quickly.
+
+2. Tab Navigation: The icon-enhanced tabs provide intuitive switching between sections (Animals, Food, Planner) while keeping the interface uncluttered and focused.
+
+3. Wildcare Theme: The earthy green palette reflects nature (my favorite color!) and feels appropriate for a zoo management system, while soft grays ensure readability.
+
+4. Consistency: Matching headers, borders, and interactive states across all components create a cohesive, professional dashboard experience.
+
+5. Also, the css part was little bit lenthy as I have used svg for every item.
 ### Task 7: Logic Feature
 
 The zookeepers want a new feature: Calculate the food required for the next calendar month. Basically, the zookeepers want to ease their job and buy a month worth of food in advance. In order to do so they want you to calculate and display the food all animals need for the next month.
@@ -92,6 +117,9 @@ To calculate the food an animal needs in kilograms in 1 day, the zookeepers use 
 5. If the animal is a fish: The required food is 0 kg
 
 // Your solution
+
+1. Created a new method useCalculateMonthlyFood() that uses the given formula and adjusts for each animal's properties.
+2. Displayed the results in the new Monthly Food Requirement Tab .
 
 ### Task 8: Plan New Feature
 
@@ -118,8 +146,30 @@ Don't spend more thatn 15-30 minutes here - planning like this can quickly becom
 
 // Your solution
 
+UI/UX Design:
+- Create a form to select the animal, fruit, and date for each task.
+- Create a feedings overview section where tasks are grouped by date.
+- Consider how to handle edge cases like missing fruit or invalid dates.
+- Ensure clear grouping by date with visually distinguishable sections.
+- Ensure clear grouping by date with visually distinguishable sections.
+
+Questions that arise:
+- What if two feedings are added for the same animal on the same day?
+- Should the keeper be able to edit/delete planned tasks?
+- Should the form validate inputs (like future date, correct animal selected)?
+- Should favorite fruit be auto-suggested? (Maybe later.)
+
 ### Task 9: Finish the documentation
 
 Revisit docs from step 3, see if you want to add anything. Also think about bonuses. Add a general comment about anything (inside the universe of the challenge or out of it) if you want to.
 
 // Your solution
+
+Revisited Documentation: 
+- Updated the README file with additional details:
+- Added example data for the upcoming feeding feature.
+- Explained the new UI for animal details and feeding schedules.
+- Expanded on how to extend the food calculation logic for future features.
+- Added a troubleshooting section for common issues like dependency conflicts.
+
+General Comment: It's important to have clear documentation and clear communication with the zookeepers on feature requests. Taking the time to plan features upfront helps avoid confusion and saves time during development.
